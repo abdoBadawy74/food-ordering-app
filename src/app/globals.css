@@ -69,7 +69,7 @@
   --chart-3: oklch(0.3787 0.044 225.54);
   --chart-4: oklch(0.8336 0.1186 88.15);
   --chart-5: oklch(0.7834 0.1261 58.75);
-  --radius:0.5rem;
+  --radius: 0.5rem;
   --sidebar: oklch(0.9838 0.0035 247.86);
   --sidebar-foreground: oklch(0.1371 0.036 258.53);
   --sidebar-primary: oklch(0.1371 0.036 258.53);
@@ -87,7 +87,7 @@
   --card-foreground: oklch(0.9838 0.0035 247.86);
   --popover: oklch(0.1371 0.036 258.53);
   --popover-foreground: oklch(0.9838 0.0035 247.86);
- --primary: oklch(0.5729 0.2337 28.52);
+  --primary: oklch(0.5729 0.2337 28.52);
   --primary-foreground: oklch(0.2079 0.0399 265.73);
   --secondary: oklch(0.28 0.0369 259.97);
   --secondary-foreground: oklch(0.9838 0.0035 247.86);
@@ -124,5 +124,8 @@
   }
   .container {
     @apply mx-auto px-4 md:px-8 lg:px-16 xl:px-32;
+  }
+  .section-gap {
+    @apply my-8 md:my-16;
   }
 }
