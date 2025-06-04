@@ -6,7 +6,7 @@ import AddToCartButton from "./AddToCartButton";
 
 export default function MenuItem({ item }: { item: any }) {
   return (
-    <li>
+    <li className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
       <div className="relative w-48 h-48 mx-auto">
         <Image
           src={item.image}

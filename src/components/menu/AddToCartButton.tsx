@@ -37,7 +37,7 @@ function AddToCartButton({ item }: { item: any }) {
           <Button
             type="button"
             size={"lg"}
-            className="mt-4 text-white rounded-full !px-8 cursor-pointer"
+            className="mt-4 text-white rounded-full !px-8 cursor-pointer block mx-auto"
           >
             <span>Add to Cart</span>
           </Button>
@@ -65,10 +65,9 @@ function AddToCartButton({ item }: { item: any }) {
             </div>
           </div>
           <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" className="w-full h-10 ">
+              Add To Cart
+            </Button>
           </DialogFooter>
         </DialogContent>
       </form>
@@ -82,7 +81,10 @@ function PickSize({ sizes, item }: { sizes: any; item: any }) {
   return (
     <RadioGroup defaultValue="comfortable">
       {sizes.map((size: any) => (
-        <div key={size.id} className="flex items-center space-x-2 border border-gray-200 p-4 rounded-md">
+        <div
+          key={size.id}
+          className="flex items-center space-x-2 border border-gray-200 p-4 rounded-md"
+        >
           <RadioGroupItem value={size.name} id={size.id} />
           <Label htmlFor={size.id}>
             {size.name} {formatCurrency(size.price + item.basePrice)}
@@ -95,7 +97,10 @@ function PickSize({ sizes, item }: { sizes: any; item: any }) {
 
 function Extras({ extras, item }: { extras: any; item: any }) {
   return extras.map((extra: any) => (
-    <div key={extra.id} className="flex items-center space-x-2 border border-gray-200 p-4 rounded-md">
+    <div
+      key={extra.id}
+      className="flex items-center space-x-2 border border-gray-200 p-4 rounded-md"
+    >
       <Checkbox id={extra.id} />
       <Label
         htmlFor={extra.id}
