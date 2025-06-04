@@ -1,0 +1,108 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import Image from "next/image";
+import { Label } from "../ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { formatCurrency } from "@/lib/formatters";
+import { Checkbox } from "../ui/checkbox";
+
+const sizes = [
+  { id: crypto.randomUUID(), name: "Small", price: 0 },
+  { id: crypto.randomUUID(), name: "Medium", price: 5 },
+  { id: crypto.randomUUID(), name: "Large", price: 10 },
+];
+
+const extras = [
+  { id: crypto.randomUUID(), name: "Chease", price: 2 },
+  { id: crypto.randomUUID(), name: "Onion", price: 1.5 },
+  { id: crypto.randomUUID(), Tomato: "Tomoto", price: 3 },
+];
+
+function AddToCartButton({ item }: { item: any }) {
+  return (
+    <Dialog>
+      <form>
+        <DialogTrigger asChild>
+          <Button
+            type="button"
+            size={"lg"}
+            className="mt-4 text-white rounded-full !px-8 cursor-pointer"
+          >
+            <span>Add to Cart</span>
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
+          <DialogHeader className="flex items-center">
+            <Image src={item.image} alt={item.title} width={200} height={200} />
+            <DialogTitle>{item.title}</DialogTitle>
+            <DialogDescription className="text-center">
+              {item.description}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-10">
+            <div className="space-y-4">
+              <Label className="block text-center" htmlFor="pick-size">
+                Pick your size
+              </Label>
+              <PickSize sizes={sizes} item={item} />
+            </div>
+            <div className="space-y-4">
+              <Label className="block text-center" htmlFor="add-Extras">
+                Any Extras ?
+              </Label>
+              <Extras extras={extras} item={item} />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </form>
+    </Dialog>
+  );
+}
+
+export default AddToCartButton;
+
+function PickSize({ sizes, item }: { sizes: any; item: any }) {
+  return (
+    <RadioGroup defaultValue="comfortable">
+      {sizes.map((size: any) => (
+        <div key={size.id} className="flex items-center space-x-2 border border-gray-200 p-4 rounded-md">
+          <RadioGroupItem value={size.name} id={size.id} />
+          <Label htmlFor={size.id}>
+            {size.name} {formatCurrency(size.price + item.basePrice)}
+          </Label>
+        </div>
+      ))}
+    </RadioGroup>
+  );
+}
+
+function Extras({ extras, item }: { extras: any; item: any }) {
+  return extras.map((extra: any) => (
+    <div key={extra.id} className="flex items-center space-x-2 border border-gray-200 p-4 rounded-md">
+      <Checkbox id={extra.id} />
+      <Label
+        htmlFor={extra.id}
+        className="text-sm text-accent font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >
+        {extra.name} {formatCurrency(extra.price + item.basePrice)}
+      </Label>
+    </div>
+  ));
+}
