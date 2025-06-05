@@ -3,7 +3,12 @@ import Menu from "@/components/menu";
 import { db } from "@/lib/prisma";
 
 async function BestSeller() {
-  const bestSellers = await db.product.findMany()
+  const bestSellers = await db.product.findMany({
+    include: {
+      sizes: true,
+      extras: true,
+    },
+  });
 
   console.log(bestSellers);
   return (

@@ -15,21 +15,10 @@ import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatCurrency } from "@/lib/formatters";
 import { Checkbox } from "../ui/checkbox";
-import { Extra, Product, Size } from "@/generated/prisma";
+import { Extra, Size } from "@/generated/prisma";
+import { ProductWithRelations } from "@/types/product";
 
-const sizes = [
-  { id: crypto.randomUUID(), name: "Small", price: 0 },
-  { id: crypto.randomUUID(), name: "Medium", price: 5 },
-  { id: crypto.randomUUID(), name: "Large", price: 10 },
-];
-
-const extras = [
-  { id: crypto.randomUUID(), name: "Chease", price: 2 },
-  { id: crypto.randomUUID(), name: "Onion", price: 1.5 },
-  { id: crypto.randomUUID(), Tomato: "Tomoto", price: 3 },
-];
-
-function AddToCartButton({ item }: { item: Product }) {
+function AddToCartButton({ item }: { item: ProductWithRelations }) {
   return (
     <Dialog>
       <form>
@@ -55,13 +44,13 @@ function AddToCartButton({ item }: { item: Product }) {
               <Label className="block text-center" htmlFor="pick-size">
                 Pick your size
               </Label>
-              <PickSize sizes={sizes} item={item} />
+              <PickSize sizes={item.sizes} item={item} />
             </div>
             <div className="space-y-4">
               <Label className="block text-center" htmlFor="add-Extras">
                 Any Extras ?
               </Label>
-              <Extras extras={extras} item={item} />
+              <Extras extras={item.extras} />
             </div>
           </div>
           <DialogFooter>
@@ -77,7 +66,13 @@ function AddToCartButton({ item }: { item: Product }) {
 
 export default AddToCartButton;
 
-function PickSize({ sizes, item }: { sizes: Size[]; item: Product }) {
+function PickSize({
+  sizes,
+  item,
+}: {
+  sizes: Size[];
+  item: ProductWithRelations;
+}) {
   return (
     <RadioGroup defaultValue="comfortable">
       {sizes.map((size) => (
