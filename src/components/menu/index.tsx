@@ -1,7 +1,8 @@
+import { Product } from "@/generated/prisma";
 import MenuItem from "./MenuItem";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function Menu({ items }: { items: any }) {
+
+function Menu({ items }: { items: Product[] }) {
   return (
     <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {items.map((product) => (

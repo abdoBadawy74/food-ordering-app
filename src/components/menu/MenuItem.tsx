@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatCurrency } from "@/lib/formatters";
 import Image from "next/image";
 import React from "react";
 import AddToCartButton from "./AddToCartButton";
+import { Product } from "@/generated/prisma";
 
-export default function MenuItem({ item }: { item: any }) {
+export default function MenuItem({ item }: { item: Product }) {
   return (
     <li className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
       <div className="relative w-48 h-48 mx-auto">

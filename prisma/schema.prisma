@@ -23,6 +23,39 @@ model Product {
   basePrice   Float
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  sizes       Size[]
+  extras      Extra[]
+}
 
-  @@map("products")
+model Size {
+  id        String       @id @default(cuid())
+  name      ProductSizes
+  price     Float
+  product   Product      @relation(fields: [productId], references: [id])
+  productId String
+}
+
+enum ProductSizes {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+model Extra {
+  id        String          @id @default(cuid())
+  name      ExtraIngredient
+  price     Float
+  product   Product         @relation(fields: [productId], references: [id])
+  productId String
+}
+
+enum ExtraIngredient {
+  CHEESE
+  TOMATO
+  ONION
+  PEPPER
+  MUSHROOM
+  OLIVE
+  GARLIC
+  BASIL
 }

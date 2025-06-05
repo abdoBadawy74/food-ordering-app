@@ -3,9 +3,9 @@ import Menu from "@/components/menu";
 import { db } from "@/lib/prisma";
 
 async function BestSeller() {
-  const bestSellers = await db.product.findMany();
+  const bestSellers = await db.product.findMany()
 
-  console.log("Fetched products:", bestSellers);
+  console.log(bestSellers);
   return (
     <section>
       <div className="container">

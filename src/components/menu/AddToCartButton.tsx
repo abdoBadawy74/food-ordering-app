@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -16,6 +15,7 @@ import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatCurrency } from "@/lib/formatters";
 import { Checkbox } from "../ui/checkbox";
+import { Extra, Product, Size } from "@/generated/prisma";
 
 const sizes = [
   { id: crypto.randomUUID(), name: "Small", price: 0 },
@@ -29,7 +29,7 @@ const extras = [
   { id: crypto.randomUUID(), Tomato: "Tomoto", price: 3 },
 ];
 
-function AddToCartButton({ item }: { item: any }) {
+function AddToCartButton({ item }: { item: Product }) {
   return (
     <Dialog>
       <form>
@@ -44,8 +44,8 @@ function AddToCartButton({ item }: { item: any }) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
           <DialogHeader className="flex items-center">
-            <Image src={item.image} alt={item.title} width={200} height={200} />
-            <DialogTitle>{item.title}</DialogTitle>
+            <Image src={item.image} alt={item.name} width={200} height={200} />
+            <DialogTitle>{item.name}</DialogTitle>
             <DialogDescription className="text-center">
               {item.description}
             </DialogDescription>
@@ -77,10 +77,10 @@ function AddToCartButton({ item }: { item: any }) {
 
 export default AddToCartButton;
 
-function PickSize({ sizes, item }: { sizes: any; item: any }) {
+function PickSize({ sizes, item }: { sizes: Size[]; item: Product }) {
   return (
     <RadioGroup defaultValue="comfortable">
-      {sizes.map((size: any) => (
+      {sizes.map((size) => (
         <div
           key={size.id}
           className="flex items-center space-x-2 border border-gray-200 p-4 rounded-md"
@@ -95,8 +95,8 @@ function PickSize({ sizes, item }: { sizes: any; item: any }) {
   );
 }
 
-function Extras({ extras, item }: { extras: any; item: any }) {
-  return extras.map((extra: any) => (
+function Extras({ extras }: { extras: Extra[] }) {
+  return extras.map((extra) => (
     <div
       key={extra.id}
       className="flex items-center space-x-2 border border-gray-200 p-4 rounded-md"
@@ -106,7 +106,7 @@ function Extras({ extras, item }: { extras: any; item: any }) {
         htmlFor={extra.id}
         className="text-sm text-accent font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
       >
-        {extra.name} {formatCurrency(extra.price + item.basePrice)}
+        {extra.name} {formatCurrency(extra.price)}
       </Label>
     </div>
   ));
