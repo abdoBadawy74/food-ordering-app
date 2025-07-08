@@ -1,9 +1,15 @@
-import { Button } from "@/components/ui/button";
+import About from "@/components/about";
+import BestSeller from "./_components/BestSeller";
+import Hero from "./_components/Hero";
+import Contact from "@/components/contact";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main>
-      <Button className="bg-blue-500 hover:bg-blue-600">Click Me </Button>
+      <Hero />
+      <BestSeller />
+      <About />
+      <Contact />
     </main>
   );
 }
