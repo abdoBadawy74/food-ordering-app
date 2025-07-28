@@ -49,7 +49,10 @@ function AddToCartButton({ item }: { item: ProductWithRelations }) {
       totalPrice += extra.price;
     }
   }
-  
+
+  const handleAddToCart = () => {
+    // Dispatch an action to add the item to the cart
+  };
 
   return (
     <Dialog>
@@ -95,7 +98,7 @@ function AddToCartButton({ item }: { item: ProductWithRelations }) {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" className="w-full h-10 ">
+            <Button type="submit" onClick={handleAddToCart} className="w-full h-10 ">
               Add To Cart {formatCurrency(totalPrice)}
             </Button>
           </DialogFooter>
