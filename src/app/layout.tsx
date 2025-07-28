@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import ReduxProviders from "@/providers/ReduxProviders";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -23,10 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.className}`}>
-        <Header />
-        {/* Main content of the page */}
-        {children}
-        <Footer />
+        <ReduxProviders>
+          <Header />
+          {/* Main content of the page */}
+          {children}
+          <Footer />
+        </ReduxProviders>
       </body>
     </html>
   );
