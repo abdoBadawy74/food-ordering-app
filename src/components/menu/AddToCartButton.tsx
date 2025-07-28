@@ -18,11 +18,13 @@ import { Checkbox } from "../ui/checkbox";
 import { Extra, ProductSizes, Size } from "@/generated/prisma";
 import { ProductWithRelations } from "@/types/product";
 import { useState } from "react";
-import { useAppSelector } from "@/redux/hooks";
-import { selectCartItems } from "@/redux/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addCartItem, selectCartItems } from "@/redux/features/cart/cartSlice";
+
 
 function AddToCartButton({ item }: { item: ProductWithRelations }) {
   const cart = useAppSelector(selectCartItems); // Get the cart items from the Redux store
+  const dispatch = useAppDispatch();
   // Find the default size from the cart or fallback to the first available size
   const defaultSize =
     cart.find((cartItem) => cartItem.id === item.id)?.size ||
@@ -52,6 +54,14 @@ function AddToCartButton({ item }: { item: ProductWithRelations }) {
 
   const handleAddToCart = () => {
     // Dispatch an action to add the item to the cart
+    dispatch(addCartItem({
+      id: item.id,
+      name: item.name,
+      image: item.image,
+      basePrice: item.basePrice,
+      size: selectedSize,
+      extras: selectedExtras,
+    }));
   };
 
   return (
