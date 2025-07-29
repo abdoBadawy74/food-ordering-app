@@ -19,11 +19,19 @@ import { Extra, ProductSizes, Size } from "@/generated/prisma";
 import { ProductWithRelations } from "@/types/product";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addCartItem, selectCartItems } from "@/redux/features/cart/cartSlice";
-
+import {
+  addCartItem,
+  removeCartItem,
+  removeItemFromCart,
+  selectCartItems,
+} from "@/redux/features/cart/cartSlice";
+import { getItemQuantity } from "@/lib/cart";
 
 function AddToCartButton({ item }: { item: ProductWithRelations }) {
   const cart = useAppSelector(selectCartItems); // Get the cart items from the Redux store
+
+  const quantity = getItemQuantity(cart, item.id);
+
   const dispatch = useAppDispatch();
   // Find the default size from the cart or fallback to the first available size
   const defaultSize =
@@ -39,29 +47,30 @@ function AddToCartButton({ item }: { item: ProductWithRelations }) {
   // Initialize the selected extras state with the default extras or an empty array
   const [selectedExtras, setSelectedExtras] = useState<Extra[]>(defaultExtras!);
 
-
   let totalPrice = item.basePrice;
 
-  if(selectedSize){
+  if (selectedSize) {
     totalPrice += selectedSize.price;
   }
 
-  if(selectedExtras.length > 0) {
-    for(const extra of selectedExtras) {
+  if (selectedExtras.length > 0) {
+    for (const extra of selectedExtras) {
       totalPrice += extra.price;
     }
   }
 
   const handleAddToCart = () => {
     // Dispatch an action to add the item to the cart
-    dispatch(addCartItem({
-      id: item.id,
-      name: item.name,
-      image: item.image,
-      basePrice: item.basePrice,
-      size: selectedSize,
-      extras: selectedExtras,
-    }));
+    dispatch(
+      addCartItem({
+        id: item.id,
+        name: item.name,
+        image: item.image,
+        basePrice: item.basePrice,
+        size: selectedSize,
+        extras: selectedExtras,
+      })
+    );
   };
 
   return (
@@ -108,9 +117,22 @@ function AddToCartButton({ item }: { item: ProductWithRelations }) {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={handleAddToCart} className="w-full h-10 ">
-              Add To Cart {formatCurrency(totalPrice)}
-            </Button>
+            {quantity === 0 ? (
+              <Button
+                type="submit"
+                onClick={handleAddToCart}
+                className="w-full h-10 "
+              >
+                Add To Cart {formatCurrency(totalPrice)}
+              </Button>
+            ) : (
+              <ChooseQuantity
+                quantity={quantity}
+                item={item}
+                size={selectedSize}
+                extra={selectedExtras}
+              />
+            )}
           </DialogFooter>
         </DialogContent>
       </form>
@@ -190,3 +212,57 @@ function Extras({
     </div>
   ));
 }
+
+const ChooseQuantity = ({
+  quantity,
+  item,
+  size,
+  extra,
+}: {
+  quantity: number;
+  item: ProductWithRelations;
+  size: Size;
+  extra: Extra[];
+}) => {
+  const dispatch = useAppDispatch();
+
+  return (
+    <div className="flex items-center flex-col gap-2 mt-4 w-full">
+      <div className="flex items-center gap-2 justify-content-center">
+        <Button
+          variant={"outline"}
+          onClick={() => dispatch(removeCartItem({ id: item.id }))}
+        >
+          -
+        </Button>
+        <div>
+          <span className="text-black">{quantity} in cart</span>
+        </div>
+        <Button
+          variant={"outline"}
+          onClick={() =>
+            dispatch(
+              addCartItem({
+                basePrice: item.basePrice,
+                id: item.id,
+                image: item.image,
+                name: item.name,
+                size: size,
+                extras: extra,
+              })
+            )
+          }
+        >
+          +
+        </Button>
+      </div>
+      <Button
+        size={"sm"}
+        onClick={() => dispatch(removeItemFromCart({ id: item.id }))}
+        className="w-full h-10"
+      >
+        Remove
+      </Button>
+    </div>
+  );
+};
