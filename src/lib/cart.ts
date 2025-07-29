@@ -21,3 +21,8 @@ export const getSubtotal = (cart: CartItem[]) => {
 };
 
 export const deliveryFee = 5; 
+
+export const getTotalAmount = (cart: CartItem[]) => {
+  const subtotal = getSubtotal(cart);
+  return subtotal + deliveryFee;
+};
