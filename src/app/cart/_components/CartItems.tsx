@@ -10,13 +10,17 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
-
+import { useEffect } from "react";
 
 function CartItems() {
   const cart = useAppSelector(selectCartItems);
   const dispatch = useAppDispatch();
 
-  const subTotal= getSubtotal(cart);
+  const subTotal = getSubtotal(cart);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+  }, [cart]);
 
   return (
     <div>
@@ -82,20 +86,20 @@ function CartItems() {
             ))}
           </ul>
 
-          <div className='flex flex-col justify-end items-end pt-6'>
-            <span className='text-accent font-medium'>
+          <div className="flex flex-col justify-end items-end pt-6">
+            <span className="text-accent font-medium">
               Subtotal:
-              <strong className='text-black'>{formatCurrency(subTotal)}</strong>
+              <strong className="text-black">{formatCurrency(subTotal)}</strong>
             </span>
-            <span className='text-accent font-medium'>
+            <span className="text-accent font-medium">
               Delivery:
-              <strong className='text-black'>
+              <strong className="text-black">
                 {formatCurrency(deliveryFee)}
               </strong>
             </span>
-            <span className='text-accent font-medium'>
+            <span className="text-accent font-medium">
               Total:
-              <strong className='text-black'>
+              <strong className="text-black">
                 {formatCurrency(subTotal + deliveryFee)}
               </strong>
             </span>
