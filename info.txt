@@ -1,3 +1,4 @@
 02:40:00 last stopped time
 03:30:00 last stopped time
 04:04:30 last stopped time
+last half hour in video
